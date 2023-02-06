@@ -1,0 +1,20 @@
+.header{
+    height: 30vh;
+    background-image: url('https://acf.geeknetic.es/imagenes/auto/2020/6/9/y3d-valorant-todo-lo-que-necesitas-saber.jpg');
+    background-position-y: -3rem;
+    background-position-x: 5rem;
+}
+.bg-valo{
+    background-color: rgba(255,70,84,255) ;
+}
+main{
+    min-height: 60vh;
+}
+.filtros{
+    height: 10vh;
+}
+.img{
+    width: 100%;
+    overflow: hidden;
+    object-position: -30% 30%;
+}
