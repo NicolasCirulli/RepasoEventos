@@ -51,6 +51,7 @@ function crearCard( personaje ){
         <div class="card-body">
             <h4 class="card-title text-center">${personaje.displayName}</h4>
             <p class="card-text text-center">${personaje.description}</p>
+            <a href="./details.html"> details </a> 
         </div>
     </div>
 `
