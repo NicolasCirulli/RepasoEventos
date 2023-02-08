@@ -10,7 +10,7 @@ const rolesSinRepetidosSet = new Set( rolesRepetidosArray )
 
 const rolesSinRepetidosArray = [ ...rolesSinRepetidosSet ]
 
-
+console.log( datos[0] )
 
 agregarCard( datos, $container )
 agregarOption( rolesSinRepetidosArray, $select )
@@ -51,7 +51,7 @@ function crearCard( personaje ){
         <div class="card-body">
             <h4 class="card-title text-center">${personaje.displayName}</h4>
             <p class="card-text text-center">${personaje.description}</p>
-            <a href="./details.html"> details </a> 
+            <a class="btn btn-secondary" href="./details.html?id=${personaje.uuid}&name=${personaje.displayName}" > details </a> 
         </div>
     </div>
 `
