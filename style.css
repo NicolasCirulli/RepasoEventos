@@ -21,3 +21,14 @@ main{
 a{
     text-decoration: none;
 }
+
+.green{
+    background-color: green;
+}
+
+.red{
+    background-color: red;
+}
+.blue{
+    background-color: blue;
+}

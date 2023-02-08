@@ -61,26 +61,69 @@ metodos number
 */
 
 
-// location - url searchs params
 
+
+
+
+
+
+// location - url searchs params
+import { agregarCard } from './module/funciones.js'
 const $container = document.getElementById( 'card-container' )
 
 const params = new URLSearchParams(location.search )
 const id = params.get( "id" ) 
-const personaje = personajes.data.find( personaje =>  personaje.uuid == id)
+const personaje = personajes.data.filter( personaje =>  personaje.uuid == id)
 /* const nombre = params.get( "name" )   */
 /* const aux = personaje.displayName[0].toUpperCase() + personaje.displayName.slice(1).toLowerCase()
 document.title = `${aux}'s details`  */
 
 
-$container.innerHTML = `
-    <div class="card border-secondary col-10">
-    <img class="card-img-top" src="${personaje.fullPortraitV2}" alt="Title">
-    <div class="card-body">
-    <h4 class="card-title">${personaje.displayName}</h4>
-    <p class="card-text">${personaje.description}</p>
-    </div>
-    </div>
-`
+agregarCard( personaje, $container )
 
 
+
+
+/* Destructuring 
+
+const numeros = [12,23,31,42,5,6,7]
+
+ let variable1 = numeros[0]
+let variable2 = numeros[1] 
+
+ let [ variable1, variable2 ,variable3 ] = numeros
+
+console.log( variable1, variable2, variable3 ) 
+
+const mentor = {
+        nombre: 'Nico',
+        edad: 28,
+        mascota : 'Kugi',
+        saludar : function(){
+            console.log(this)
+            console.log('hola soy: ' + this.nombre)
+        }
+}
+
+let { edad, mascota, nombre, saludar } = mentor
+ let edad = mentores.edad 
+
+mentor.saludar()
+saludar()
+
+const mentores = [
+    {
+        nombre: 'Nico',
+    },
+    {
+        nombre: 'Lucre',
+    },
+    {
+        nombre: 'Jose',
+    }
+]
+
+let [ , { nombre:nombreEncontrado } ] = mentores
+
+console.log( nombreEncontrado ) 
+*/
