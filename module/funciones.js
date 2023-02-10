@@ -1,4 +1,5 @@
 export function agregarCard(lista, elemento){
+    if( !lista ) return
     elemento.innerHTML = ''
     let template = ''
     for( let personaje of lista ){

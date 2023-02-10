@@ -12,18 +12,18 @@ const rolesSinRepetidosSet = new Set( rolesRepetidosArray )
 
 const rolesSinRepetidosArray = [ ...rolesSinRepetidosSet ]
 
+$radioContainer.addEventListener( 'change', (e) => {
+    const filtrados = filtrarPersonajesRadio( datos, e.target.value )
+    const filtradosPorSelect = filtrarPersonajesSelect( filtrados, $select.value )
+    agregarCard( filtradosPorSelect, $container )
+})
+
 agregarCard( datos, $container )
 agregarOption( rolesSinRepetidosArray, $select )
 
 
 // eventos
 
-$radioContainer.addEventListener( 'change', (e) => {
-    const filtrados = filtrarPersonajesRadio( datos, e.target.value )
-    const filtradosPorSelect = filtrarPersonajesSelect( filtrados, $select.value )
-    agregarCard( filtradosPorSelect, $container )
-   
-})
 
 $select.addEventListener( 'change', (e) =>{
     const radioChecked = document.querySelector('input[type="radio"]:checked')
