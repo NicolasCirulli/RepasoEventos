@@ -18,3 +18,17 @@ main{
     overflow: hidden;
     object-position: -30% 30%;
 }
+a{
+    text-decoration: none;
+}
+
+.green{
+    background-color: green;
+}
+
+.red{
+    background-color: red;
+}
+.blue{
+    background-color: blue;
+}

@@ -1,29 +1,31 @@
+import { agregarCard, agregarOption, filtrarPersonajesSelect, filtrarPersonajesRadio, traerDatos } from './module/funciones.js'
+
 const $container = document.getElementById('card-container')
 const $select = document.getElementById( 'select' )
 const $radioContainer = document.getElementById('radio-container')
 
-const datos = personajes.data.filter( personaje => personaje.isAvailableForTest )
+let favoritos = JSON.parse( localStorage.getItem( 'favoritos' ) ) || []
+console.log( favoritos )
+traerDatos()
+    .then( ({data}) => {
+        datos = data.filter( personaje => personaje.isAvailableForTest )
+        agregarCard( datos, $container, favoritos )
+        agregarOption( [ ...new Set( datos.map( personaje => personaje.role.displayName ) ) ], $select )
+    })
+let datos; 
 
-const rolesRepetidosArray = datos.map( personaje => personaje.role.displayName )
-
-const rolesSinRepetidosSet = new Set( rolesRepetidosArray )
-
-const rolesSinRepetidosArray = [ ...rolesSinRepetidosSet ]
-
-
-
-agregarCard( datos, $container )
-agregarOption( rolesSinRepetidosArray, $select )
+/* fetch( 'https://valorant-api.com/v1/agents' )
+    .then( response => response.json())
+    .then( ({data}) => {
+        datos = data.filter( personaje => personaje.isAvailableForTest )
+        agregarCard( datos, $container, favoritos )
+        agregarOption( [ ...new Set( datos.map( personaje => personaje.role.displayName ) ) ], $select )
+    } )
+    .catch( err => console.log(err) ) 
+*/
 
 
 // eventos
-
-$radioContainer.addEventListener( 'change', (e) => {
-    const filtrados = filtrarPersonajesRadio( datos, e.target.value )
-    const filtradosPorSelect = filtrarPersonajesSelect( filtrados, $select.value )
-    agregarCard( filtradosPorSelect, $container )
-   
-})
 
 $select.addEventListener( 'change', (e) =>{
     const radioChecked = document.querySelector('input[type="radio"]:checked')
@@ -32,74 +34,24 @@ $select.addEventListener( 'change', (e) =>{
     agregarCard( filtradosRadio, $container )
 })
 
+$radioContainer.addEventListener( 'change', (e) => {
+    const filtrados = filtrarPersonajesRadio( datos, e.target.value )
+    const filtradosPorSelect = filtrarPersonajesSelect( filtrados, $select.value )
+    agregarCard( filtradosPorSelect, $container )
+})
 
-// funciones
-
-function agregarCard(lista, elemento){
-    elemento.innerHTML = ''
-    let template = ''
-    for( let personaje of lista ){
-        template += crearCard(personaje)
-    }
-    elemento.innerHTML += template
-}
-
-function crearCard( personaje ){
-    return  `
-    <div class="card col-9 col-md-3">
-        <img class="card-img-top" src="${personaje.fullPortraitV2}" alt="Title">
-        <div class="card-body">
-            <h4 class="card-title text-center">${personaje.displayName}</h4>
-            <p class="card-text text-center">${personaje.description}</p>
-        </div>
-    </div>
-`
-}
-
-function agregarOption(lista, elemento){
-    let fragment = document.createDocumentFragment()
-    lista.forEach( rol => fragment.appendChild( crearOption(rol) ) )
-    elemento.appendChild(fragment)
-}
-
-function crearOption( rol ){
-
-    let option = document.createElement('option')
-    option.value = rol
-    option.textContent = rol
-    return option
-
-}
-
-function filtrarPersonajesSelect( personajes, value ){
-    if( value == 'all' ) return personajes
-    return personajes.filter( personaje => personaje.role.displayName == value ) 
-}   
-
-function filtrarPersonajesRadio( personajes, value){
-    if( value == 'all'){
-        return personajes
-    }
-    let aux = personajes.filter( personaje => {
-        if( value == 'base' ){
-            return personaje.isBaseContent
+$container.addEventListener( 'click', e => {
+    if( e.target.localName === 'button' ){
+        if( favoritos.some( fav => fav.uuid == e.target.id) ){
+            favoritos = favoritos.filter( fav => fav.uuid != e.target.id )
+            e.target.classList.replace("btn-danger", "btn-primary")
+            localStorage.setItem( 'favoritos', JSON.stringify( favoritos ) )
+        }else{
+            favoritos.push( datos.find( personaje => personaje.uuid == e.target.id ) )
+            e.target.classList.replace("btn-primary", "btn-danger")
+            localStorage.setItem( 'favoritos', JSON.stringify( favoritos ) )
         }
-        if( value == 'Contracts' ){
-            return !personaje.isBaseContent
-        }
-    } )
-
-    return aux
-}
-
-
-/* function agregarOptionInner(lista, elemento){
-    lista.forEach( rol => elemento.innerHTML += crearOptionInner(rol) )
-}
-
-function crearOptionInner( rol ){
-    return `<option value=${rol}>${rol}</option>`
-}
- */
+    }
+})
 
 
