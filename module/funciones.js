@@ -1,21 +1,25 @@
-export function agregarCard(lista, elemento){
+export function agregarCard(lista, elemento, favoritos){
     if( !lista ) return
     elemento.innerHTML = ''
     let template = ''
     for( let personaje of lista ){
-        template += crearCard(personaje)
+        template += crearCard(personaje, favoritos)
     }
     elemento.innerHTML += template
 }
 
-export function crearCard( personaje ){
+export function crearCard( personaje, favoritos){
+    let aux = favoritos.some( fav => fav.uuid == personaje.uuid) ? "btn-danger" : "btn-primary"
     return  `
     <div class="card col-9 col-md-3">
         <img class="card-img-top" src="${personaje.fullPortraitV2}" alt="Title">
         <div class="card-body">
             <h4 class="card-title text-center">${personaje.displayName}</h4>
             <p class="card-text text-center">${personaje.description}</p>
-            <a class="btn btn-secondary" href="./details.html?id=${personaje.uuid}&name=${personaje.displayName}" > details </a> 
+            <div class="col-10 d-flex gap-5"> 
+            <a class="btn btn-secondary col-5" href="./details.html?id=${personaje.uuid}&name=${personaje.displayName}" > details </a> 
+            <button class="btn ${aux} col-5" id=${personaje.uuid} > fav </button>
+            </div>
         </div>
     </div>
 `
@@ -57,4 +61,12 @@ export function filtrarPersonajesRadio( personajes, value){
     return aux
 }
 
-
+export async function traerDatos(){
+    try{
+        let response = await fetch( 'https://valorant-api.com/v1/agents' )
+        let data = await response.json()
+        return data
+    }catch(error){
+        console.log(error)
+    }
+}
